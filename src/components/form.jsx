@@ -29,7 +29,6 @@ export function Form() {
       setTaskDescription("");
       setDueDate(null);
       setTaskStatus("Pending");
-      // optionally refresh list or show toast
     } else {
       console.error("Create failed", await res.text());
     }
