@@ -31,8 +31,6 @@ export function Form({ onTaskCreation }) {
       setTaskStatus("Pending");
 
       onTaskCreation();
-      console.log("onTaskCreated is:", onTaskCreation);
-      console.log("Task created, refreshing...");
     } else {
       console.error("Create failed", await res.text());
     }
