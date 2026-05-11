@@ -4,6 +4,16 @@ import { Header } from "./components/Header";
 import { Form } from "./components/Form";
 import { TaskList } from "./components/TaskList";
 
+function deleteTask(id) {
+  fetch(`/api/tasks/${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    if (res.ok) {
+      console.log("Deleted task", id);
+    }
+  });
+}
+
 function App() {
   // Set tasks state to pass to classes
   const [task, setTasks] = useState([]);
@@ -22,7 +32,7 @@ function App() {
     <div className="App">
       <Header />
       <Form onTaskCreation={fetchTasks} />
-      <TaskList tasks={task} />
+      <TaskList tasks={task} onDelete={deleteTask} />
     </div>
   );
 }

@@ -44,6 +44,23 @@ app.get("/api/tasks", async (req, res) => {
   }
 });
 
+// Delete a task
+app.delete("/api/tasks/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query("DELETE FROM tasks WHERE id = $1", [id]);
+
+    if (XPathResult.rowCount === 0) {
+      res.status(404).json({ error: "task not found" });
+    } else {
+      res.json({ ok: true });
+    }
+  } catch (err) {
+    console.error("DELETE /api/tasks/:id error", err);
+    res.status(500).json({ error: "delete failed" });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
