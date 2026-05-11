@@ -2,7 +2,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export function Form() {
+export function Form({ onTaskCreation }) {
   const [taskName, setTaskName] = useState("");
   const [taskType, setTaskType] = useState("Other");
   const [taskDescription, setTaskDescription] = useState("");
@@ -29,6 +29,8 @@ export function Form() {
       setTaskDescription("");
       setDueDate(null);
       setTaskStatus("Pending");
+
+      onTaskCreation();
     } else {
       console.error("Create failed", await res.text());
     }
@@ -52,7 +54,7 @@ export function Form() {
         onChange={(e) => setTaskType(e.target.value)}
       >
         <option>Hearing</option>
-        <option>Case Management</option>
+        <option>Case Review</option>
         <option>Document Review</option>
         <option>Bug</option>
         <option>Other</option>
@@ -73,7 +75,7 @@ export function Form() {
       >
         <option>Pending</option>
         <option>In Progress</option>
-        <option>Completed</option>
+        <option>Resulsted</option>
         <option>Deleted</option>
       </select>
 
