@@ -75,7 +75,7 @@ export function Form({ onTaskCreation }) {
       >
         <option>Pending</option>
         <option>In Progress</option>
-        <option>Resulsted</option>
+        <option>Completed</option>
         <option>Deleted</option>
       </select>
 
