@@ -18,7 +18,7 @@ export function Form({ onTaskCreation }) {
       task_status: taskStatus,
       due_date: dueDate ? dueDate.toISOString() : null,
     };
-    const res = await fetch("/api/tasks", {
+    const res = await fetch("http://localhost:4000/api/tasks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -75,7 +75,7 @@ export function Form({ onTaskCreation }) {
       >
         <option>Pending</option>
         <option>In Progress</option>
-        <option>Resulsted</option>
+        <option>Completed</option>
         <option>Deleted</option>
       </select>
 

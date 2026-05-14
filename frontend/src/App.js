@@ -29,6 +29,25 @@ function App() {
     }
   };
 
+  const updateTaskStatus = async (task_id, new_status) => {
+    try {
+      const res = await fetch(`/api/tasks/${task_id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task_status: new_status }),
+      });
+      if (res.ok) {
+        console.log(`Updated task ${task_id} status to ${new_status}`);
+        await fetchTasks();
+      } else {
+        const txt = await res.text();
+        console.error("Update failed:", txt);
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -37,7 +56,11 @@ function App() {
     <div className="App">
       <Header />
       <Form onTaskCreation={fetchTasks} />
-      <TaskList tasks={tasks} onDelete={deleteTask} />
+      <TaskList
+        tasks={tasks}
+        onDelete={deleteTask}
+        onStatusChange={updateTaskStatus}
+      />
     </div>
   );
 }

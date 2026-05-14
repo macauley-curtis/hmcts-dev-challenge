@@ -57,6 +57,26 @@ app.delete("/api/tasks/:task_id", async (req, res) => {
   }
 });
 
+app.put("/api/tasks/:task_id", async (req, res) => {
+  try {
+    const { task_id } = req.params;
+    const { task_status } = req.body;
+
+    const result = await pool.query(
+      `UPDATE tasks
+       SET task_status = $1
+       WHERE task_id = $2
+       RETURNING *`,
+      [task_status, task_id],
+    );
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
