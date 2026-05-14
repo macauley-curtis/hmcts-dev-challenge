@@ -22,6 +22,19 @@ app.get("/api/tasks", async (req, res) => {
   }
 });
 
+app.get("/api/task-statuses", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT unnest(enum_range(NULL::task_status_enum)) AS status;
+    `);
+
+    res.json(result.rows.map((r) => r.status));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post("/api/tasks", async (req, res) => {
   try {
     const { task_name, task_type, task_description, task_status, due_date } =

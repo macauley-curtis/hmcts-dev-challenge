@@ -1,24 +1,4 @@
-import Dropdown from "react-bootstrap/Dropdown";
-
-function BasicExample() {
-  return (
-    <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-}
-
-export default BasicExample;
-
-export function TaskList({ tasks, onDelete, onStatusChange }) {
+export function TaskList({ tasks, statuses, onDelete, onStatusChange }) {
   // on task creation, fetch list of task
   return (
     <div>
@@ -35,10 +15,11 @@ export function TaskList({ tasks, onDelete, onStatusChange }) {
               value={task.task_status}
               onChange={(e) => onStatusChange(task.task_id, e.target.value)}
             >
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-              <option value="Deleted">Deleted</option>
+              {statuses.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
             </select>
             | Due:{" "}
             {task.due_date ? new Date(task.due_date).toLocaleDateString() : "-"}{" "}
