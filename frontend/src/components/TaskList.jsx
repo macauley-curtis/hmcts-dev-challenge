@@ -27,7 +27,6 @@ export function TaskList({ tasks, statuses, onDelete, onStatusChange }) {
             <button type="button" onClick={() => onDelete(task.task_id)}>
               del
             </button>
-            {/* <button onClick={() => onEdit(task.task_id)}>edit</button> */}
           </li>
         ))}
       </ul>
