@@ -4,10 +4,10 @@
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
+    "bootstrap": "^5.3.8",
     "react": "^19.2.6",
+    "react-bootstrap": "^2.10.10",
     "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.6",
     "react-scripts": "5.0.1",
@@ -15,8 +15,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:4000",
@@ -37,5 +39,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@vitejs/plugin-react": "^6.0.2",
+    "@vitest/ui": "^4.1.6",
+    "jsdom": "^24.0.0"
   }
 }
