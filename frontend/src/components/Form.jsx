@@ -11,6 +11,7 @@ export function Form({ onTaskCreation }) {
 
   const submitEvent = async (e) => {
     e.preventDefault();
+
     const body = {
       task_name: taskName,
       task_type: taskType,
