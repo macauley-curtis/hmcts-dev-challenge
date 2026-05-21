@@ -1,5 +1,5 @@
 {
-  "name": "hmcts-task-mgmt",
+  "name": "hmcts-task-mgmt-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,8 +17,8 @@
     "start": "react-scripts start",
     "dev": "react-scripts start",
     "build": "react-scripts build",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
+    "test": "vitest run --config ../vitest.config.js",
+    "test:ui": "vitest --ui --config ../vitest.config.js",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:4000",
