@@ -68,7 +68,7 @@ describe("TaskList", () => {
     expect(taskType.textContent).toContain("Hearing");
     expect(taskDescription.textContent).toContain("Test description");
     expect(statusLabel.value).toBe("Pending");
-    expect(dueDate.textContent).toContain("12/31/2099");
+    expect(dueDate.textContent).toContain(expectedDueDate);
   });
 
   it("should call onStatusChange when status is changed", () => {
