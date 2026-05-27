@@ -22,6 +22,19 @@ app.get("/api/tasks", async (req, res) => {
   }
 });
 
+app.get("/api/task-types", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT unnest(enum_range(NULL::task_type_enum)) AS type;
+    `);
+
+    res.json(result.rows.map((r) => r.type));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get("/api/task-statuses", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -82,6 +95,10 @@ app.put("/api/tasks/:task_id", async (req, res) => {
        RETURNING *`,
       [task_status, task_id],
     );
+
+    if (!result.rows.length) {
+      return res.status(404).json({ error: "Task not found" });
+    }
 
     res.json(result.rows[0]);
   } catch (err) {
