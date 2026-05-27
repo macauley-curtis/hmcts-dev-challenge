@@ -76,8 +76,11 @@ app.delete("/api/tasks/:task_id", async (req, res) => {
       [task_id],
     );
 
+    if (!result.rows.length) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
     res.json({ ok: true, deleted: result.rows[0] });
-  } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
   }
@@ -90,7 +93,8 @@ app.put("/api/tasks/:task_id", async (req, res) => {
 
     const result = await pool.query(
       `UPDATE tasks
-       SET task_status = $1
+       SET task_status = $1,
+           updated_at = CURRENT_TIMESTAMP
        WHERE task_id = $2
        RETURNING *`,
       [task_status, task_id],

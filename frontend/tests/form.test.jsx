@@ -1,8 +1,12 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { vi } from "vitest";
+import { vi, afterEach } from "vitest";
 import { Form } from "../src/components/Form";
 
 describe("Form", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   const taskTypes = [
     "Hearing",
     "Case Management",
@@ -11,7 +15,6 @@ describe("Form", () => {
     "Other",
   ];
   const taskStatuses = ["To do", "In Progress", "Completed", "Deleted"];
-
   const valid_inputs = {
     task_name: "Test task",
     task_type: "Hearing",
@@ -140,13 +143,10 @@ describe("Form", () => {
   it("should submit the form with valid values", async () => {
     const mockOnTaskCreation = vi.fn();
 
-    const originalFetch = global.fetch;
-
-    global.fetch = vi.fn().mockResolvedValue({
+    vi.spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       json: async () => ({}),
     });
-
     render(
       <Form
         onTaskCreation={mockOnTaskCreation}
@@ -195,6 +195,5 @@ describe("Form", () => {
     expect(body.task_description).toBe(valid_inputs.task_description);
     expect(body.task_status).toBe(valid_inputs.task_status);
 
-    global.fetch = originalFetch;
   });
 });

@@ -50,8 +50,8 @@ describe("TaskList", () => {
     const taskType = screen.getByText(/hearing/i);
     const taskDescription = screen.getByText(/test description/i);
     const statusLabel = screen.getByLabelText(/status/i);
-    const dueDate = screen.getByText(/12\/31\/2099/i);
-
+    const expectedDueDate = new Date(testTask.due_date).toLocaleDateString();
+    const dueDate = screen.getByText(expectedDueDate);
     expect(taskName).toBeInTheDocument();
     expect(taskType).toBeInTheDocument();
     expect(taskDescription).toBeInTheDocument();

@@ -1,8 +1,6 @@
-const pool = require("../test.db");
 const request = require("supertest");
 const app = require("../app");
 const { resetTasksTable, closePool } = require("./dbTestHelpers");
-const { envPrefix } = require("../../vitest.config");
 
 beforeEach(async () => {
   await resetTasksTable();
@@ -69,7 +67,7 @@ describe("integration POST /api/tasks", () => {
       task_type: "Hearing",
       task_description: "This is a test task for integration testing",
       task_status: "In Progress",
-      due_date: "2099-12-31T00:00:00.000Z",
+      due_date: "2099-12-31",
     });
   });
 
@@ -136,14 +134,14 @@ describe("integration GET /api/tasks", () => {
           task_type: "Case Management",
           task_description: "This is the first task",
           task_status: "To do",
-          due_date: "2099-12-30T00:00:00.000Z",
+          due_date: "2099-12-30",
         }),
         expect.objectContaining({
           task_name: "Integration Test Task",
           task_type: "Hearing",
           task_description: "This is a test task for integration testing",
           task_status: "In Progress",
-          due_date: "2099-12-31T00:00:00.000Z",
+          due_date: "2099-12-31",
         }),
       ]),
     );
@@ -205,7 +203,7 @@ describe("integration PUT /api/tasks/:task_id", () => {
       task_type: "Case Management",
       task_description: "This is the first task",
       task_status: "Completed",
-      due_date: "2099-12-30T00:00:00.000Z",
+      due_date: "2099-12-30",
     });
   });
 
@@ -241,7 +239,7 @@ describe("integration DELETE /api/tasks/:task_id", () => {
         task_type: "Case Management",
         task_description: "This is the first task",
         task_status: "To do",
-        due_date: "2099-12-30T00:00:00.000Z",
+        due_date: "2099-12-30",
       }),
     });
 
@@ -253,8 +251,9 @@ describe("integration DELETE /api/tasks/:task_id", () => {
         task_type: "Hearing",
         task_description: "This is a test task for integration testing",
         task_status: "In Progress",
-        due_date: "2099-12-31T00:00:00.000Z",
+        due_date: "2099-12-31",
       }),
+    ]);
     ]);
   });
 

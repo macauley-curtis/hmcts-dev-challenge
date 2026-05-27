@@ -9,7 +9,7 @@ describe("DELETE /api/tasks", () => {
     task_name: "Task to Delete",
     task_type: "Hearing",
     task_description: "This task will be deleted",
-    task_status: "Pending",
+    task_status: "To do",
     due_date: "2099-12-31",
     created_at: "2024-01-01T00:00:00.000Z",
   };
