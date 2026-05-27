@@ -83,6 +83,9 @@ app.delete("/api/tasks/:task_id", async (req, res) => {
     res.json({ ok: true, deleted: result.rows[0] });
     console.error(err);
     res.status(500).json({ error: err.message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
 

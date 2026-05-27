@@ -26,6 +26,7 @@ const firstTask = {
   due_date: "2099-12-30",
 };
 
+// POST
 describe("integration POST /api/tasks", () => {
   const invalidStatusTask = {
     task_name: "Invalid Status Task",
@@ -67,7 +68,7 @@ describe("integration POST /api/tasks", () => {
       task_type: "Hearing",
       task_description: "This is a test task for integration testing",
       task_status: "In Progress",
-      due_date: "2099-12-31",
+      due_date: "2099-12-31T00:00:00.000Z",
     });
   });
 
@@ -102,6 +103,7 @@ describe("integration POST /api/tasks", () => {
   });
 });
 
+// GET
 describe("integration GET /api/tasks", () => {
   it("should fetch the correct task status types", async () => {
     const res = await request(app).get("/api/task-statuses");
@@ -134,14 +136,20 @@ describe("integration GET /api/tasks", () => {
           task_type: "Case Management",
           task_description: "This is the first task",
           task_status: "To do",
-          due_date: "2099-12-30",
+          task_id: 1,
+          due_date: "2099-12-30T00:00:00.000Z",
+          created_at: expect.any(String),
+          updated_at: expect.any(String),
         }),
         expect.objectContaining({
           task_name: "Integration Test Task",
           task_type: "Hearing",
           task_description: "This is a test task for integration testing",
+          task_id: 2,
           task_status: "In Progress",
-          due_date: "2099-12-31",
+          due_date: "2099-12-31T00:00:00.000Z",
+          created_at: expect.any(String),
+          updated_at: expect.any(String),
         }),
       ]),
     );
@@ -149,6 +157,7 @@ describe("integration GET /api/tasks", () => {
   // add provided warning/info for empty return in main file and test
 });
 
+// PUT
 describe("integration PUT /api/tasks/:task_id", () => {
   const updatedTaskName = {
     task_name: "First Task UPDATED",
@@ -203,7 +212,7 @@ describe("integration PUT /api/tasks/:task_id", () => {
       task_type: "Case Management",
       task_description: "This is the first task",
       task_status: "Completed",
-      due_date: "2099-12-30",
+      due_date: "2099-12-30T00:00:00.000Z",
     });
   });
 
@@ -223,6 +232,7 @@ describe("integration PUT /api/tasks/:task_id", () => {
   // error handling on update
 });
 
+//DELETE
 describe("integration DELETE /api/tasks/:task_id", () => {
   it("should delete a task and return the only remaining task", async () => {
     const res = await request(app).post("/api/tasks").send(firstTask);
@@ -239,7 +249,9 @@ describe("integration DELETE /api/tasks/:task_id", () => {
         task_type: "Case Management",
         task_description: "This is the first task",
         task_status: "To do",
-        due_date: "2099-12-30",
+        due_date: "2099-12-30T00:00:00.000Z",
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
       }),
     });
 
@@ -249,15 +261,15 @@ describe("integration DELETE /api/tasks/:task_id", () => {
       expect.objectContaining({
         task_name: "Integration Test Task",
         task_type: "Hearing",
+        task_id: 2,
         task_description: "This is a test task for integration testing",
         task_status: "In Progress",
-        due_date: "2099-12-31",
+        due_date: "2099-12-31T00:00:00.000Z",
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
       }),
-    ]);
     ]);
   });
 
   // error handling on deletion
 });
-
-// clean db

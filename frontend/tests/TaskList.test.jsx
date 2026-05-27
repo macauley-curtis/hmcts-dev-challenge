@@ -51,24 +51,23 @@ describe("TaskList", () => {
     const taskDescription = screen.getByText(/test description/i);
     const statusLabel = screen.getByLabelText(/status/i);
     const expectedDueDate = new Date(testTask.due_date).toLocaleDateString();
-    const dueDate = screen.getByText(expectedDueDate);
+    const taskItem = screen.getByRole("listitem");
     expect(taskName).toBeInTheDocument();
     expect(taskType).toBeInTheDocument();
     expect(taskDescription).toBeInTheDocument();
     expect(statusLabel).toBeInTheDocument();
-    expect(dueDate).toBeInTheDocument();
+    expect(taskItem).toHaveTextContent(expectedDueDate);
 
     expect(taskName.tagName).toBe("STRONG");
     expect(taskType.tagName).toBe("LI");
     expect(taskDescription.tagName).toBe("LI");
     expect(statusLabel.tagName).toBe("SELECT");
-    expect(dueDate.tagName).toBe("LI");
+    expect(taskItem.tagName).toBe("LI");
 
     expect(taskName.textContent).toContain("Test Task");
     expect(taskType.textContent).toContain("Hearing");
     expect(taskDescription.textContent).toContain("Test description");
     expect(statusLabel.value).toBe("Pending");
-    expect(dueDate.textContent).toContain(expectedDueDate);
   });
 
   it("should call onStatusChange when status is changed", () => {
