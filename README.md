@@ -42,3 +42,23 @@ run the front and backend tests.
 
 Use `npm run dev` to setup the backend server and run the node app.
 You should see a pop up for it but if not visit [http://localhost:3000](http://localhost:3000) in browser.
+
+# Application use
+
+This application uses the Form to create tasks in the main bar with fields:
+
+- task name
+- task description
+- task type
+- task status
+- due date
+
+Once done via either filling out the text box or using the drop-down of
+approved values, the `create task` button posts the taks to the backend db and
+the frontend fetch's this and displays it in the task list.
+
+Once in the task list the tasks' fields can be updated.
+There is minor data validation on entries for the drop down options and the
+due date.
+
+Finally a task may be delated by use of the `del` button.
