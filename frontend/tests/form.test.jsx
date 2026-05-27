@@ -3,16 +3,31 @@ import { vi } from "vitest";
 import { Form } from "../src/components/Form";
 
 describe("Form", () => {
+  const taskTypes = [
+    "Hearing",
+    "Case Management",
+    "Document Review",
+    "Bug",
+    "Other",
+  ];
+  const taskStatuses = ["To do", "In Progress", "Completed", "Deleted"];
+
   const valid_inputs = {
     task_name: "Test task",
     task_type: "Hearing",
     task_description: "This is a test task",
-    task_status: "Pending",
+    task_status: "To do",
     due_date: "2099-12-31T23:59:59.000Z",
   };
 
   it("renders the form component in order", () => {
-    render(<Form onTaskCreation={() => {}} />);
+    render(
+      <Form
+        onTaskCreation={() => {}}
+        taskTypes={taskTypes}
+        taskStatuses={taskStatuses}
+      />,
+    );
 
     const fields = [
       screen.getByLabelText(/task name/i),
@@ -41,7 +56,13 @@ describe("Form", () => {
   });
 
   it("should have the correct field types", () => {
-    render(<Form onTaskCreation={() => {}} />);
+    render(
+      <Form
+        onTaskCreation={() => {}}
+        taskTypes={taskTypes}
+        taskStatuses={taskStatuses}
+      />,
+    );
 
     const fields = [
       screen.getByLabelText(/task name/i),
@@ -59,14 +80,26 @@ describe("Form", () => {
   });
 
   it("should have the create button", () => {
-    render(<Form onTaskCreation={() => {}} />);
+    render(
+      <Form
+        onTaskCreation={() => {}}
+        taskTypes={taskTypes}
+        taskStatuses={taskStatuses}
+      />,
+    );
 
     const button = screen.getByRole("button", { name: /create task/i });
     expect(button).toBeInTheDocument();
   });
 
   it("should have a valid type drop down", () => {
-    render(<Form onTaskCreation={() => {}} />);
+    render(
+      <Form
+        onTaskCreation={() => {}}
+        taskTypes={taskTypes}
+        taskStatuses={taskStatuses}
+      />,
+    );
 
     const typeSelect = screen.getByLabelText(/type/i);
     const valid_types = Array.from(typeSelect.options).map(
@@ -74,7 +107,7 @@ describe("Form", () => {
     );
     expect(valid_types).toEqual([
       "Hearing",
-      "Case Review",
+      "Case Management",
       "Document Review",
       "Bug",
       "Other",
@@ -83,14 +116,20 @@ describe("Form", () => {
   });
 
   it("should have a valid status drop down", () => {
-    render(<Form onTaskCreation={() => {}} />);
+    render(
+      <Form
+        onTaskCreation={() => {}}
+        taskTypes={taskTypes}
+        taskStatuses={taskStatuses}
+      />,
+    );
 
     const statusSelect = screen.getByLabelText(/status/i);
     const valid_statuses = Array.from(statusSelect.options).map(
       (o) => o.textContent,
     );
     expect(valid_statuses).toEqual([
-      "Pending",
+      "To do",
       "In Progress",
       "Completed",
       "Deleted",
@@ -108,7 +147,13 @@ describe("Form", () => {
       json: async () => ({}),
     });
 
-    render(<Form onTaskCreation={mockOnTaskCreation} />);
+    render(
+      <Form
+        onTaskCreation={mockOnTaskCreation}
+        taskTypes={taskTypes}
+        taskStatuses={taskStatuses}
+      />,
+    );
 
     const taskNameInput = screen.getByLabelText(/task name/i);
     const taskTypeInput = screen.getByLabelText(/type/i);

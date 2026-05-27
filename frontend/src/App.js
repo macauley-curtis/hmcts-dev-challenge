@@ -7,6 +7,7 @@ import { TaskList } from "./components/TaskList";
 function App() {
   // Set tasks state to pass to classes
   const [tasks, setTasks] = useState([]);
+  const [taskTypes, setTaskTypes] = useState([]);
   const [statuses, setStatuses] = useState([]);
 
   const fetchTasks = async () => {
@@ -19,6 +20,12 @@ function App() {
     const res = await fetch("/api/task-statuses");
     const data = await res.json();
     setStatuses(data);
+  };
+
+  const fetchTaskTypes = async () => {
+    const res = await fetch("/api/task-types");
+    const data = await res.json();
+    setTaskTypes(data);
   };
 
   const deleteTask = async (task_id) => {
@@ -58,12 +65,17 @@ function App() {
   useEffect(() => {
     fetchTasks();
     fetchStatuses();
+    fetchTaskTypes();
   }, []);
 
   return (
     <div className="App">
       <Header />
-      <Form onTaskCreation={fetchTasks} />
+      <Form
+        onTaskCreation={fetchTasks}
+        taskTypes={taskTypes}
+        taskStatuses={statuses}
+      />
       <TaskList
         tasks={tasks}
         statuses={statuses}
