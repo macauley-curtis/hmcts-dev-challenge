@@ -78,9 +78,8 @@ describe("GET /api/task-statuses", () => {
     pool.query.mockReset();
   });
 
-  const mockStatuses = ["Pending", "In Progress", "Completed"];
+  const mockStatuses = ["To do", "In Progress", "Completed", "Deleted"];
   const allowed = mockStatuses;
-
   it("should return a list of task statuses", async () => {
     pool.query.mockResolvedValue({
       rows: mockStatuses.map((status) => ({ status })),
