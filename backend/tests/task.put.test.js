@@ -58,4 +58,15 @@ describe("PUT /api/tasks", () => {
     expect(res.status).toBe(200);
     expect(res.body.task_status).toBe("Completed");
   });
+
+  it("should return 404 if task is not found", async () => {
+    pool.query.mockResolvedValue({ rows: [] });
+
+    const res = await request(app).put("/api/tasks/9999").send({
+      task_status: "Completed",
+    });
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Task not found" });
+  });
 });

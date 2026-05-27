@@ -25,16 +25,13 @@ describe("DELETE /api/tasks", () => {
     expect(res.body).toEqual({ ok: true, deleted: deletionTask });
   });
 
-  it("db should be empty after deletion", async () => {
-    pool.query.mockResolvedValue({ rows: [] });
+  //better suited for an integration test with a real database
+  //   it("db should be empty after deletion", async () => {
+  //     pool.query.mockResolvedValue({ rows: [] });
 
-    const res = await request(app).get("/api/tasks");
+  //     const res = await request(app).get("/api/tasks");
 
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual([]);
-  });
-
-  it("should be true", () => {
-    expect(true).toBe(true);
-  });
+  //     expect(res.status).toBe(200);
+  //     expect(res.body).toEqual([]);
+  //   });
 });
