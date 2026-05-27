@@ -17,8 +17,9 @@
     "start": "react-scripts start",
     "dev": "react-scripts start",
     "build": "react-scripts build",
-    "test": "vitest run --config ../vitest.config.js",
-    "test:ui": "vitest --ui --config ../vitest.config.js",
+    "test": "vitest run --config vitest.config.ts",
+    "test:ui": "vitest --ui --config vitest.config.ts",
+    "lint": "echo \"No lint configured\"",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:4000",

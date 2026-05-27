@@ -97,7 +97,7 @@ describe("integration POST /api/tasks", () => {
     });
   });
 
-  it("expect a post error when missing required fields", async () => {
+  it("should create a task when optional fields are omitted", async () => {
     const res = await request(app).post("/api/tasks").send(missingFieldsTask);
     expect(res.status).toBe(201);
   });
