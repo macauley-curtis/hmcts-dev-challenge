@@ -1,0 +1,29 @@
+{
+  "name": "hmcts-task-mgmt-backend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "vitest run --config ../vitest.config.js",
+    "test:watch": "vitest --watch --config ../vitest.config.js",
+    "lint": "echo \"No lint configured\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2",
+    "vitest": "^4.1.6"
+  }
+}
