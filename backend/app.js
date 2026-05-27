@@ -70,7 +70,6 @@ app.post("/api/tasks", async (req, res) => {
 app.delete("/api/tasks/:task_id", async (req, res) => {
   try {
     const { task_id } = req.params;
-
     const result = await pool.query(
       "DELETE FROM tasks WHERE task_id = $1 RETURNING *",
       [task_id],
@@ -80,7 +79,7 @@ app.delete("/api/tasks/:task_id", async (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     }
 
-    res.json({ ok: true, deleted: result.rows[0] });
+    res.json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
@@ -90,15 +89,17 @@ app.delete("/api/tasks/:task_id", async (req, res) => {
 app.put("/api/tasks/:task_id", async (req, res) => {
   try {
     const { task_id } = req.params;
-    const { task_status } = req.body;
+    const { task_name, task_status, task_description } = req.body;
 
     const result = await pool.query(
       `UPDATE tasks
-       SET task_status = $1,
+       SET task_name = COALESCE($1, task_name),
+           task_status = COALESCE($2, task_status),
+           task_description = COALESCE($3, task_description),
            updated_at = CURRENT_TIMESTAMP
-       WHERE task_id = $2
+       WHERE task_id = $4
        RETURNING *`,
-      [task_status, task_id],
+      [task_name, task_status, task_description, task_id],
     );
 
     if (!result.rows.length) {

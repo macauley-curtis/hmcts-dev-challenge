@@ -243,9 +243,8 @@ describe("integration DELETE /api/tasks/:task_id", () => {
       `/api/tasks/${res.body.task_id}`,
     );
     expect(deleteRes.status).toBe(200);
-    expect(deleteRes.body).toEqual({
-      ok: true,
-      deleted: expect.objectContaining({
+    expect(deleteRes.body).toEqual(
+      expect.objectContaining({
         task_name: "First Task",
         task_type: "Case Management",
         task_description: "This is the first task",
@@ -254,7 +253,7 @@ describe("integration DELETE /api/tasks/:task_id", () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
       }),
-    });
+    );
 
     const getRes = await request(app).get("/api/tasks");
     expect(getRes.status).toBe(200);

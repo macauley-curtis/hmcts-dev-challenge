@@ -9,7 +9,7 @@ describe("DELETE /api/tasks", () => {
     task_name: "Task to Delete",
     task_type: "Hearing",
     task_description: "This task will be deleted",
-    task_status: "To do",
+    task_status: "Pending",
     due_date: "2099-12-31",
     created_at: "2024-01-01T00:00:00.000Z",
   };
@@ -22,7 +22,7 @@ describe("DELETE /api/tasks", () => {
     const res = await request(app).delete("/api/tasks/1");
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ ok: true, deleted: deletionTask });
+    expect(res.body).toMatchObject(deletionTask);
   });
 
   //better suited for an integration test with a real database
