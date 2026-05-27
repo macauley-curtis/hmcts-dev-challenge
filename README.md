@@ -2,7 +2,7 @@
 
 ## Pre-requiments
 
-To run this project you must install [Postgres](https://www.postgresql.org/download/)) for database management
+To run this project you must install [Postgres](https://www.postgresql.org/download/) for database management
 and [Node.js](https://nodejs.org/en/download).
 
 ## Notes on build process
@@ -16,7 +16,7 @@ The testing uses vitest as a framework.
 Github workflows are set up for testing and linting on PR creation to branches
 `main` or `dev`.
 
-## Getting started
+# Getting started
 
 ## Clone this repo
 
