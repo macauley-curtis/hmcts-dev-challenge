@@ -178,7 +178,7 @@ describe("integration PUT /api/tasks/:task_id", () => {
 
   const updatedTaskType = {
     task_name: "First Task",
-    task_type: "Document Review",
+    task_type: "Bug",
     task_description: "This is the first task",
     task_status: "To do",
     due_date: "2099-12-30",
@@ -189,7 +189,7 @@ describe("integration PUT /api/tasks/:task_id", () => {
     task_type: "Case Management",
     task_description: "This is the first task",
     task_status: "To do",
-    due_date: "2099-12-31",
+    due_date: "3099-12-30",
   };
 
   const updatedTaskDescription = {
@@ -213,6 +213,58 @@ describe("integration PUT /api/tasks/:task_id", () => {
       task_type: "Case Management",
       task_description: "This is the first task",
       task_status: "Completed",
+      due_date: "2099-12-30T00:00:00.000Z",
+    });
+
+    const updateNameRes = await request(app)
+      .put(`/api/tasks/${res.body.task_id}`)
+      .send(updatedTaskName);
+
+    expect(updateNameRes.status).toBe(200);
+    expect(updateNameRes.body).toMatchObject({
+      task_name: "First Task UPDATED",
+      task_type: "Case Management",
+      task_description: "This is the first task",
+      task_status: "To do",
+      due_date: "2099-12-30T00:00:00.000Z",
+    });
+
+    const updateTypeRes = await request(app)
+      .put(`/api/tasks/${res.body.task_id}`)
+      .send(updatedTaskType);
+
+    expect(updateTypeRes.status).toBe(200);
+    expect(updateTypeRes.body).toMatchObject({
+      task_name: "First Task",
+      task_type: "Bug",
+      task_description: "This is the first task",
+      task_status: "To do",
+      due_date: "2099-12-30T00:00:00.000Z",
+    });
+
+    const updateDueDateRes = await request(app)
+      .put(`/api/tasks/${res.body.task_id}`)
+      .send(updatedTaskDueDate);
+
+    expect(updateDueDateRes.status).toBe(200);
+    expect(updateDueDateRes.body).toMatchObject({
+      task_name: "First Task",
+      task_type: "Case Management",
+      task_description: "This is the first task",
+      task_status: "To do",
+      due_date: "3099-12-30T00:00:00.000Z",
+    });
+
+    const updateDescriptionRes = await request(app)
+      .put(`/api/tasks/${res.body.task_id}`)
+      .send(updatedTaskDescription);
+
+    expect(updateDescriptionRes.status).toBe(200);
+    expect(updateDescriptionRes.body).toMatchObject({
+      task_name: "First Task",
+      task_type: "Case Management",
+      task_description: "This is the UPDATED description",
+      task_status: "To do",
       due_date: "2099-12-30T00:00:00.000Z",
     });
   });

@@ -89,17 +89,20 @@ app.delete("/api/tasks/:task_id", async (req, res) => {
 app.put("/api/tasks/:task_id", async (req, res) => {
   try {
     const { task_id } = req.params;
-    const { task_name, task_status, task_description } = req.body;
+    const { task_name, task_type, task_status, task_description, due_date } =
+      req.body;
 
     const result = await pool.query(
       `UPDATE tasks
        SET task_name = COALESCE($1, task_name),
-           task_status = COALESCE($2, task_status),
-           task_description = COALESCE($3, task_description),
+           task_type = COALESCE($2, task_type),
+           task_status = COALESCE($3, task_status),
+           task_description = COALESCE($4, task_description),
+           due_date = COALESCE($5, due_date),
            updated_at = CURRENT_TIMESTAMP
-       WHERE task_id = $4
+       WHERE task_id = $6
        RETURNING *`,
-      [task_name, task_status, task_description, task_id],
+      [task_name, task_type, task_status, task_description, due_date, task_id],
     );
 
     if (!result.rows.length) {
