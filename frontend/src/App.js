@@ -43,15 +43,15 @@ function App() {
     }
   };
 
-  const updateTaskStatus = async (task_id, new_status) => {
+  const updateTask = async (task_id, updates) => {
     try {
       const res = await fetch(`/api/tasks/${task_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task_status: new_status }),
+        body: JSON.stringify(updates),
       });
       if (res.ok) {
-        console.log(`Updated task ${task_id} status to ${new_status}`);
+        console.log(`Updated task ${task_id}`);
         await fetchTasks();
       } else {
         const txt = await res.text();
@@ -60,6 +60,22 @@ function App() {
     } catch (err) {
       console.error("Update error:", err);
     }
+  };
+
+  const updateTaskStatus = async (task_id, new_status) => {
+    await updateTask(task_id, { task_status: new_status });
+  };
+
+  const updateTaskName = async (task_id, new_name) => {
+    await updateTask(task_id, { task_name: new_name });
+  };
+
+  const updateTaskDescription = async (task_id, new_description) => {
+    await updateTask(task_id, { task_description: new_description });
+  };
+
+  const updateTaskType = async (task_id, new_type) => {
+    await updateTask(task_id, { task_type: new_type });
   };
 
   useEffect(() => {
@@ -78,9 +94,13 @@ function App() {
       />
       <TaskList
         tasks={tasks}
+        taskTypes={taskTypes}
         statuses={statuses}
         onDelete={deleteTask}
         onStatusChange={updateTaskStatus}
+        onTaskNameChange={updateTaskName}
+        onTaskDescriptionChange={updateTaskDescription}
+        onTaskTypeChange={updateTaskType}
       />
     </div>
   );

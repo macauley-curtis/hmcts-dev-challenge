@@ -8,8 +8,18 @@ describe("TaskList", () => {
       <TaskList
         tasks={[]}
         statuses={["Pending", "In Progress", "Completed"]}
+        taskTypes={[
+          "Hearing",
+          "Case Management",
+          "Document Review",
+          "Bug",
+          "Other",
+        ]}
         onDelete={() => {}}
         onStatusChange={() => {}}
+        onTaskNameChange={() => {}}
+        onTaskDescriptionChange={() => {}}
+        onTaskTypeChange={() => {}}
       />,
     );
     const listItems = container.querySelectorAll("li");
@@ -30,8 +40,18 @@ describe("TaskList", () => {
       <TaskList
         tasks={[testTask]}
         statuses={["Pending", "In Progress", "Completed"]}
+        taskTypes={[
+          "Hearing",
+          "Case Management",
+          "Document Review",
+          "Bug",
+          "Other",
+        ]}
         onDelete={() => {}}
         onStatusChange={() => {}}
+        onTaskNameChange={() => {}}
+        onTaskDescriptionChange={() => {}}
+        onTaskTypeChange={() => {}}
       />,
     );
   });
@@ -46,9 +66,9 @@ describe("TaskList", () => {
   });
 
   it("renders task elements with correct types", () => {
-    const taskName = screen.getByText(/test task/i);
+    const taskName = screen.getByLabelText(/task name/i);
     const taskType = screen.getByText(/hearing/i);
-    const taskDescription = screen.getByText(/test description/i);
+    const taskDescription = screen.getByLabelText(/description/i);
     const statusLabel = screen.getByLabelText(/status/i);
     const expectedDueDate = new Date(testTask.due_date).toLocaleDateString();
     const taskItem = screen.getByRole("listitem");
@@ -58,15 +78,15 @@ describe("TaskList", () => {
     expect(statusLabel).toBeInTheDocument();
     expect(taskItem).toHaveTextContent(expectedDueDate);
 
-    expect(taskName.tagName).toBe("STRONG");
-    expect(taskType.tagName).toBe("LI");
-    expect(taskDescription.tagName).toBe("LI");
+    expect(taskName.tagName).toBe("INPUT");
+    expect(taskType.tagName).toBe("OPTION");
+    expect(taskDescription.tagName).toBe("TEXTAREA");
     expect(statusLabel.tagName).toBe("SELECT");
     expect(taskItem.tagName).toBe("LI");
 
-    expect(taskName.textContent).toContain("Test Task");
+    expect(taskName.value).toBe("Test Task");
     expect(taskType.textContent).toContain("Hearing");
-    expect(taskDescription.textContent).toContain("Test description");
+    expect(taskDescription.value).toBe("Test description");
     expect(statusLabel.value).toBe("Pending");
   });
 
@@ -76,8 +96,18 @@ describe("TaskList", () => {
       <TaskList
         tasks={[testTask]}
         statuses={["Pending", "In Progress", "Completed"]}
+        taskTypes={[
+          "Hearing",
+          "Case Management",
+          "Document Review",
+          "Bug",
+          "Other",
+        ]}
         onDelete={() => {}}
         onStatusChange={mockStatusChange}
+        onTaskNameChange={() => {}}
+        onTaskDescriptionChange={() => {}}
+        onTaskTypeChange={() => {}}
       />,
     );
     const statusSelect = container.querySelector(`#status-${testTask.task_id}`);
@@ -96,13 +126,52 @@ describe("TaskList", () => {
       <TaskList
         tasks={[testTask]}
         statuses={["Pending", "In Progress", "Completed"]}
+        taskTypes={[
+          "Hearing",
+          "Case Management",
+          "Document Review",
+          "Bug",
+          "Other",
+        ]}
         onDelete={mockOnDelete}
         onStatusChange={() => {}}
+        onTaskNameChange={() => {}}
+        onTaskDescriptionChange={() => {}}
+        onTaskTypeChange={() => {}}
       />,
     );
+
     const deleteButton = container.querySelector("button");
     fireEvent.click(deleteButton);
 
     expect(mockOnDelete).toHaveBeenCalledWith(testTask.task_id);
+  });
+
+  it("should call onTaskTypeChange when type is changed", () => {
+    const mockTypeChange = vi.fn();
+    const { container } = render(
+      <TaskList
+        tasks={[testTask]}
+        statuses={["Pending", "In Progress", "Completed"]}
+        taskTypes={[
+          "Hearing",
+          "Case Management",
+          "Document Review",
+          "Bug",
+          "Other",
+        ]}
+        onDelete={() => {}}
+        onStatusChange={() => {}}
+        onTaskNameChange={() => {}}
+        onTaskDescriptionChange={() => {}}
+        onTaskTypeChange={mockTypeChange}
+      />,
+    );
+    const typeSelect = container.querySelector(`#type-${testTask.task_id}`);
+    fireEvent.change(typeSelect, { target: { value: "Case Management" } });
+    expect(mockTypeChange).toHaveBeenCalledWith(
+      testTask.task_id,
+      "Case Management",
+    );
   });
 });
