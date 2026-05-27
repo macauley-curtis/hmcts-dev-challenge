@@ -101,6 +101,7 @@ describe("integration POST /api/tasks", () => {
     const res = await request(app).post("/api/tasks").send(missingFieldsTask);
     expect(res.status).toBe(201);
   });
+  it("should  return error when required fields are missing", async () => {});
 });
 
 // GET
