@@ -26,8 +26,8 @@ describe("GET /api/tasks", () => {
         task_name: "Test Task",
         task_type: "Hearing",
         task_description: "Test description",
-        task_status: "Pending",
-        due_date: "2099-12-31T00:00:00.000Z",
+        task_status: "To do",
+        due_date: "2099-12-31",
         created_at: "2024-01-01T00:00:00.000Z",
       },
     ];
