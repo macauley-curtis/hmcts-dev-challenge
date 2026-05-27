@@ -7,7 +7,7 @@ process.env.NODE_ENV = "test";
 config();
 
 if (!process.env.TEST_DATABASE_URL) {
-  config({ path: path.resolve(process.cwd(), "backend/.env") });
+  config({ path: path.resolve(__dirname, "../backend/.env") });
 }
 
 if (!process.env.TEST_DATABASE_URL) {
