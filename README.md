@@ -15,6 +15,7 @@ The testing uses vitest as a framework.
 
 Github workflows are set up for testing and linting on PR creation to branches
 `main` or `dev`.
+Copilot review has been used on major pull requests. 
 
 # Getting started
 
