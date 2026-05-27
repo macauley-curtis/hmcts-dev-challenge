@@ -19,7 +19,7 @@
     "build": "react-scripts build",
     "test": "vitest run --config vitest.config.ts",
     "test:ui": "vitest --ui --config vitest.config.ts",
-    "lint": "echo \"No lint configured\"",
+    "lint": "eslint .",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:4000",
