@@ -106,7 +106,7 @@ describe("PopUpForm + Form integration", () => {
         formName="Create Task"
         formContent={(handleSuccess) => (
           <Form
-            onTaskCreation={vi.fn()}
+            onTaskCreation={handleSuccess}
             taskTypes={["Bug", "Feature"]}
             taskStatuses={["To do", "Done"]}
           />
