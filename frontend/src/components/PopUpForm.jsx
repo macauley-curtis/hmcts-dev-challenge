@@ -15,7 +15,7 @@ export function PopUpForm({ formContent, formName }) {
         onOpen={() => setIsOpen(true)}
         onClose={() => setIsOpen(false)}
         trigger={<button>{formName}</button>}
-        position="bottom center"
+        position="bottom right"
         offsetX={500}
         offsetY={12}
         contentStyle={{
