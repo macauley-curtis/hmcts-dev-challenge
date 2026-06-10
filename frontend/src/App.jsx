@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { Form } from "./components/Form";
 import { TaskList } from "./components/TaskList";
+import { PopUpForm } from "./components/PopUpForm";
 
 function App() {
   // Set tasks state to pass to classes
@@ -87,11 +88,20 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Form
-        onTaskCreation={fetchTasks}
-        taskTypes={taskTypes}
-        taskStatuses={statuses}
+      <PopUpForm
+        formName="Create Task"
+        formContent={(handleSuccess) => (
+          <Form
+            onTaskCreation={() => {
+              fetchTasks();
+              handleSuccess();
+            }}
+            taskTypes={taskTypes}
+            taskStatuses={statuses}
+          />
+        )}
       />
+
       <TaskList
         tasks={tasks}
         taskTypes={taskTypes}

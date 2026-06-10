@@ -1,3 +1,26 @@
 .App {
   text-align: center;
 }
+
+.popup-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form input,
+.form label {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form button {
+  align-self: flex-start;
+}

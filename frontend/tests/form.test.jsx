@@ -91,7 +91,7 @@ describe("Form", () => {
       />,
     );
 
-    const button = screen.getByRole("button", { name: /create task/i });
+    const button = screen.getByRole("button", { name: /submit task/i });
     expect(button).toBeInTheDocument();
   });
 
@@ -176,7 +176,7 @@ describe("Form", () => {
       target: { value: valid_inputs.task_status },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: /create task/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Submit task/i }));
 
     await waitFor(() => {
       expect(mockOnTaskCreation).toHaveBeenCalled();
@@ -194,6 +194,5 @@ describe("Form", () => {
     expect(body.task_type).toBe(valid_inputs.task_type);
     expect(body.task_description).toBe(valid_inputs.task_description);
     expect(body.task_status).toBe(valid_inputs.task_status);
-
   });
 });
