@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - dev
-
   pull_request:
     branches:
       - main
@@ -31,8 +30,9 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgres://maccurtis:@localhost:5432/hmcts_task_db
-      TEST_DATABASE_URL: postgres://maccurtis:@localhost:5432/hmcts_task_test_db
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/hmcts_task_db
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/hmcts_task_test_db
+      NODE_ENV: test
 
     steps:
       - name: Checkout code
@@ -49,7 +49,20 @@ jobs:
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-      - name: Bootstrap test database
+      - name: Wait for Postgres to be ready
+        run: |
+          echo "Waiting for Postgres..."
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            sleep 2
+          done
+          echo "Postgres is ready!"
+
+      - name: Reset test database
+        run: |
+          psql -U postgres -h localhost -c "DROP DATABASE IF EXISTS hmcts_task_test_db;"
+          psql -U postgres -h localhost -c "CREATE DATABASE hmcts_task_test_db;"
+
+      - name: Apply migrations
         run: |
           psql "$TEST_DATABASE_URL" -f backend/migrations/001_create_table.sql
           psql "$TEST_DATABASE_URL" -f backend/migrations/002_due_date_constraints.sql
