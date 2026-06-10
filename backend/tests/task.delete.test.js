@@ -34,4 +34,13 @@ describe("DELETE /api/tasks", () => {
   //     expect(res.status).toBe(200);
   //     expect(res.body).toEqual([]);
   //   });
+
+  it("should return 500 if there is a database error", async () => {
+    pool.query.mockRejectedValue(new Error("Database error"));
+
+    const res = await request(app).delete("/api/tasks/1");
+
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({ error: "Database error" });
+  });
 });
