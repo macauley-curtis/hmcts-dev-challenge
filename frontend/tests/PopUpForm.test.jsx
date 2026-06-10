@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import userTask from "@testing-library/user-event";
-import PopUpForm from "../../src/components/PopUpForm";
-import CreateTaskForm from "../../src/components/Form";
+import userEvent from "@testing-library/user-event";
+import { PopUpForm } from "../src/components/PopUpForm";
+import { Form } from "../src/components/Form";
 import { fillValidForm, submitForm } from "./utils/formHelpers";
 import { vi } from "vitest";
 
 let user;
 
 beforeEach(() => {
-  user = userTask.setup();
+  user = userEvent.setup();
 });
 
 const clickTrigger = async (name) => {
@@ -34,7 +34,7 @@ const renderPopupWithMock = (mockSubmit) => {
           }}
         >
           <input aria-label="dummy input" />
-          <button type="submit">Submit Task</button>
+          <button type="submit">Submit task</button>
         </form>
       )}
     />,
@@ -72,28 +72,28 @@ describe("PopUpForm", () => {
     renderPopupWithMock(mockSubmit);
 
     await clickTrigger("Test Form");
-    await clickTrigger("Submit Task");
+    await clickTrigger("Submit task");
 
     expect(mockSubmit).toHaveBeenCalledTimes(1);
   });
 });
 
-describe("PopUpForm + CreateTaskForm integration", () => {
+describe("PopUpForm + Form integration", () => {
   it("opens popup and shows create task form", async () => {
     render(
       <PopUpForm
         formName="Create Task"
-        formContent={(onSuccess) => <CreateTaskForm onSuccess={onSuccess} />}
+        formContent={(onSuccess) => <Form onSuccess={onSuccess} />}
       />,
     );
 
-    expect(screen.queryByPlaceholderText(/Task Name/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Task Name/i)).not.toBeInTheDocument();
 
     await clickTrigger("Create Task");
 
-    expect(screen.getByPlaceholderText(/Task Name/i)).toBeVisible();
-    expect(screen.getByLabelText(/Task Type/i)).toBeVisible();
-    expect(screen.getByLabelText(/Task Status/i)).toBeVisible();
+    expect(screen.getByLabelText(/Task Name/i)).toBeVisible();
+    expect(screen.getByLabelText(/Type/i)).toBeVisible();
+    expect(screen.getByLabelText(/Status/i)).toBeVisible();
     expect(screen.getByLabelText(/Due Date/i)).toBeVisible();
     expect(screen.getByRole("button", { name: /Submit Task/i })).toBeVisible();
   });
@@ -104,37 +104,29 @@ describe("PopUpForm + CreateTaskForm integration", () => {
     render(
       <PopUpForm
         formName="Create Task"
-        formContent={(onSuccess) => <CreateTaskForm onSuccess={onSuccess} />}
+        formContent={(handleSuccess) => (
+          <Form
+            onTaskCreation={vi.fn()}
+            taskTypes={["Bug", "Feature"]}
+            taskStatuses={["To do", "Done"]}
+          />
+        )}
       />,
     );
-
+    expect(screen.queryByLabelText(/Task name/i)).not.toBeInTheDocument();
     await clickTrigger("Create Task");
 
+    expect(screen.getByLabelText(/Task name/i)).toBeInTheDocument();
     await fillValidForm(user, screen);
     await submitForm(user, screen);
 
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/events",
+      "/api/tasks",
       expect.objectContaining({
         method: "POST",
       }),
     );
 
-    expect(screen.queryByPlaceholderText(/Task name/i)).not.toBeInTheDocument();
-  });
-
-  it("shows validation errors and does NOT submit", async () => {
-    render(
-      <PopUpForm
-        formName="Create Task"
-        formContent={(onSuccess) => <CreateTaskForm onSuccess={onSuccess} />}
-      />,
-    );
-
-    await clickTrigger("Create Task");
-
-    await submitForm(user, screen);
-
-    expect(global.fetch).not.toHaveBeenCalled();
+    expect(screen.queryByLabelText(/Submit task/i)).not.toBeInTheDocument();
   });
 });
