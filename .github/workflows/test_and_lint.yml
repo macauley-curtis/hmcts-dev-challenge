@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+
   pull_request:
     branches:
       - main
@@ -30,9 +31,8 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/hmcts_task_db
-      TEST_DATABASE_URL: postgres://postgres:postgres@postgres:5432/hmcts_task_test_db
-      PGPASSWORD: postgres
+      TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hmcts_task_test_db
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hmcts_task_test_db
 
     steps:
       - name: Checkout code
@@ -49,15 +49,10 @@ jobs:
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-      - name: Reset test database
+      - name: Bootstrap test database
         run: |
-          psql -U postgres -h postgres -c "DROP DATABASE IF EXISTS hmcts_task_test_db;"
-          psql -U postgres -h postgres -c "CREATE DATABASE hmcts_task_test_db;"
-
-      - name: Apply migrations
-        run: |
-          psql -U postgres -h postgres -d hmcts_task_test_db -f backend/migrations/001_create_table.sql
-          psql -U postgres -h postgres -d hmcts_task_test_db -f backend/migrations/002_due_date_constraints.sql
+          psql "$TEST_DATABASE_URL" -f backend/migrations/001_create_table.sql
+          psql "$TEST_DATABASE_URL" -f backend/migrations/002_due_date_constraints.sql
 
       - name: Run linting
         run: npm run lint
