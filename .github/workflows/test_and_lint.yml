@@ -51,8 +51,8 @@ jobs:
 
       - name: Bootstrap test database
         run: |
-          psql "$TEST_DATABASE_URL" -f backend/serverDev/001_create_table.sql
-          psql "$TEST_DATABASE_URL" -f backend/serverDev/002_due_date_constraints.sql
+          psql "$TEST_DATABASE_URL" -f backend/migrations/001_create_table.sql
+          psql "$TEST_DATABASE_URL" -f backend/migrations/002_due_date_constraints.sql
 
       - name: Run linting
         run: npm run lint
