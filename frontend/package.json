@@ -15,8 +15,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "vite",
+    "build": "vite build",
     "test": "vitest run --config vitest.config.ts",
     "test:ui": "vitest --ui --config vitest.config.ts",
     "lint": "eslint .",
