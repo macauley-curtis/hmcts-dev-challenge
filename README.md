@@ -62,4 +62,4 @@ Once in the task list the tasks' fields can be updated.
 There is minor data validation on entries for the drop down options and the
 due date.
 
-Finally a task may be delated by use of the `del` button.
+Finally a task may be delated by use of the `delete` button.
