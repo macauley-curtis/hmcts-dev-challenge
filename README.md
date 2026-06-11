@@ -26,9 +26,9 @@ Use the HTTPS to [clone](https://docs.github.com/en/repositories/creating-and-ma
 ## Set up a database (db)
 
 Use [Postgres](https://www.postgresql.org/docs/current/sql-createdatabase.html)
-to set up the schema. This requires two tables, `tasks` and
-`hmcts_test`. Please user the SQL scripts found in `/backend/serverDev` for
-creation of the specific tables and the type constraints.
+to set up the databases. This requires the table `tasks`. Please user the
+SQL scripts found in `/backend/migrations` for
+creation of the specific tables and the type constraints. Read `\backend\migrations\README.md` for the instructions.
 
 ## Install packages
 
@@ -42,7 +42,7 @@ run the front and backend tests.
 ## Run application
 
 Use `npm run dev` to setup the backend server and run the node app.
-You should see a pop up for it but if not visit [http://localhost:3000](http://localhost:3000) in browser.
+Visit [http://localhost:5173](http://localhost:5173) in browser.
 
 # Application use
 

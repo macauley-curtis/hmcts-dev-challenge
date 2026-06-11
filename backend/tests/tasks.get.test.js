@@ -1,7 +1,7 @@
 const request = require("supertest");
-const pool = require("../db");
+const pool = require("../src/db");
 pool.query = vi.fn();
-const app = require("../app");
+const app = require("../src/app");
 
 describe("GET /api/tasks", () => {
   beforeEach(() => {

@@ -105,7 +105,7 @@ export function Form({ onTaskCreation, taskTypes = [], taskStatuses = [] }) {
         isClearable
       />
 
-      <button type="submit">Create task</button>
+      <button type="submit">Submit task</button>
     </form>
   );
 }

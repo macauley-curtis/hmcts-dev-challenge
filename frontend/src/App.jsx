@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { Form } from "./components/Form";
 import { TaskList } from "./components/TaskList";
+import { PopUpForm } from "./components/PopUpForm";
 
 function App() {
   // Set tasks state to pass to classes
@@ -62,6 +63,7 @@ function App() {
     }
   };
 
+  // Helpers for updating fields
   const updateTaskStatus = async (task_id, new_status) => {
     await updateTask(task_id, { task_status: new_status });
   };
@@ -78,6 +80,14 @@ function App() {
     await updateTask(task_id, { task_type: new_type });
   };
 
+  const updateDueDate = (taskId, dueDate) => {
+    setTasks((tasks) =>
+      tasks.map((task) =>
+        task.task_id === taskId ? { ...task, due_date: dueDate } : task,
+      ),
+    );
+  };
+
   useEffect(() => {
     fetchTasks();
     fetchStatuses();
@@ -87,11 +97,20 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Form
-        onTaskCreation={fetchTasks}
-        taskTypes={taskTypes}
-        taskStatuses={statuses}
+      <PopUpForm
+        formName="Create Task"
+        formContent={(handleSuccess) => (
+          <Form
+            onTaskCreation={() => {
+              fetchTasks();
+              handleSuccess();
+            }}
+            taskTypes={taskTypes}
+            taskStatuses={statuses}
+          />
+        )}
       />
+
       <TaskList
         tasks={tasks}
         taskTypes={taskTypes}
@@ -101,6 +120,7 @@ function App() {
         onTaskNameChange={updateTaskName}
         onTaskDescriptionChange={updateTaskDescription}
         onTaskTypeChange={updateTaskType}
+        onDueDateChange={updateDueDate}
       />
     </div>
   );

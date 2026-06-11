@@ -25,7 +25,7 @@ EXCEPTION
 END
 $$;
 
-CREATE TABLE tasks (
+CREATE TABLE IF NOT EXISTS tasks (
     task_id SERIAL PRIMARY KEY,
     task_name VARCHAR(255) NOT NULL,
     task_type task_type_enum NOT NULL,
