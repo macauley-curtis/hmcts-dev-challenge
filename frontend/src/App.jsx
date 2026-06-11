@@ -63,6 +63,7 @@ function App() {
     }
   };
 
+  // Helpers for updating fields
   const updateTaskStatus = async (task_id, new_status) => {
     await updateTask(task_id, { task_status: new_status });
   };
@@ -77,6 +78,14 @@ function App() {
 
   const updateTaskType = async (task_id, new_type) => {
     await updateTask(task_id, { task_type: new_type });
+  };
+
+  const updateDueDate = (taskId, dueDate) => {
+    setTasks((tasks) =>
+      tasks.map((task) =>
+        task.task_id === taskId ? { ...task, due_date: dueDate } : task,
+      ),
+    );
   };
 
   useEffect(() => {
@@ -111,6 +120,7 @@ function App() {
         onTaskNameChange={updateTaskName}
         onTaskDescriptionChange={updateTaskDescription}
         onTaskTypeChange={updateTaskType}
+        onDueDateChange={updateDueDate}
       />
     </div>
   );
