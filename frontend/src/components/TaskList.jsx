@@ -14,7 +14,7 @@ export function TaskList({
 
       <ul>
         {tasks.map((task) => (
-          <li key={task.task_id}>
+          <li key={task.task_id} className="task-item">
             <label htmlFor={`task-name-${task.task_id}`}>Task name:</label>
             <input
               id={`task-name-${task.task_id}`}
@@ -57,9 +57,8 @@ export function TaskList({
               ))}
             </select>
             {task.due_date ? new Date(task.due_date).toLocaleDateString() : "-"}{" "}
-            delete:
             <button type="button" onClick={() => onDelete(task.task_id)}>
-              del
+              delete
             </button>
           </li>
         ))}
